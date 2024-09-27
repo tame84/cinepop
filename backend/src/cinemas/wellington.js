@@ -40,8 +40,6 @@ const getInformations = (infosElementsContainer) => {
  * @param {HTMLDivElement} schedulesElementsContainer
  */
 const getSchedules = (schedulesElementsContainer) => {
-    let schedules = null;
-
     const childrenContainer = schedulesElementsContainer.querySelectorAll('p')[1];
     const childrenArray = Array.from(childrenContainer.children);
 
@@ -56,9 +54,11 @@ const getSchedules = (schedulesElementsContainer) => {
 
             const datePart = el.textContent.split(' ')[1];
             const currentYear = new Date().getFullYear();
-            const timestamp = new Date(`${datePart}/${currentYear}`.split('/').reverse().join('-')).getTime();
+            const date = new Date(`${datePart}/${currentYear}`.split('/').reverse().join('-'))
+                .toISOString()
+                .split('T')[0];
 
-            dateObject.date = timestamp;
+            dateObject.date = date;
 
             dates.push(dateObject);
         } else if (el.tagName === 'A') {
@@ -91,41 +91,29 @@ export default async function fetchWellington() {
 
     const movies = [];
 
-    await Promise.all(
-        links.map(async (link) => {
-            const movieHTML = (await axios.get(`${SITE_URL}${link}`)).data;
-            const document = new JSDOM(movieHTML).window.document;
+    for (const link of links) {
+        const movieHTML = (await axios.get(`${SITE_URL}${link}`)).data;
+        const document = new JSDOM(movieHTML).window.document;
 
-            const title = document.querySelector('h3').textContent;
-            const schedulesContainer = document.querySelector('.col-md-4');
-            const schedules = getSchedules(schedulesContainer);
-            const infosContainer = document.querySelector('.col-md-6').querySelectorAll('p');
-            const { genre, duration, actors, director, synopsis } = getInformations(infosContainer);
+        const title = document.querySelector('h3').textContent;
+        const schedulesContainer = document.querySelector('.col-md-4');
+        const schedules = getSchedules(schedulesContainer);
+        const infosContainer = document.querySelector('.col-md-6').querySelectorAll('p');
+        const { genre, duration, actors, director, synopsis } = getInformations(infosContainer);
 
-            const movieFormated = {
-                title,
-                duration,
-                schedules: JSON.stringify(schedules),
-                genre: JSON.stringify(genre),
-                actors: JSON.stringify(actors),
-                director: JSON.stringify(director),
-                synopsis: synopsis,
-                cinema_id: 1,
-            };
+        const movieFormated = {
+            title,
+            duration,
+            schedules: schedules,
+            genre: JSON.stringify(genre),
+            actors: JSON.stringify(actors),
+            director: JSON.stringify(director),
+            synopsis: synopsis,
+            cinemaId: 1,
+        };
 
-            movies.push(movieFormated);
-        })
-    );
+        movies.push(movieFormated);
+    }
 
     return movies;
 }
-
-/*
-title --> string
-schedules --> object
-genre --> object
-duration --> number
-actors --> object
-director --> object
-synopsis --> string
-*/
