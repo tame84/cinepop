@@ -9,8 +9,9 @@ CREATE TABLE IF NOT EXISTS cinema (
 );
 
 CREATE TABLE IF NOT EXISTS movies (
-    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+    uuid UUID PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
     title VARCHAR(255) NOT NULL,
+    poster_url VARCHAR(255) NOT NULL,
     duration SMALLINT NOT NULL,
     genre JSONB,
     actors JSONB,
@@ -23,6 +24,6 @@ CREATE TABLE IF NOT EXISTS movies (
 CREATE TABLE IF NOT EXISTS movies_schedules (
     date DATE NOT NULL,
     hours JSONB NOT NULL,
-    movie_id INTEGER NOT NULL,
-    FOREIGN KEY (movie_id) REFERENCES movies(id)
+    movie_id UUID NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies(uuid)
 );
