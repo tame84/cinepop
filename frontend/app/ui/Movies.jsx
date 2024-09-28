@@ -1,16 +1,18 @@
 import MoviesFilters from '@/app/ui/MoviesFilters';
 import Movie from '@/app/ui/Movie';
-import { fetchTodayMovie } from '@/app/lib/data';
+import { fetchTodayMovies } from '@/app/lib/data';
 
 export default async function Movies() {
-    const movies = await fetchTodayMovie();
+    const movies = await fetchTodayMovies();
 
     return (
         <main>
             <MoviesFilters />
-            {movies.map((movie) => (
-                <Movie key={movie.title} movie={movie} />
-            ))}
+            <div>
+                {movies.map((movie) => (
+                    <Movie key={movie.title} movie={movie} />
+                ))}
+            </div>
         </main>
     );
 }
