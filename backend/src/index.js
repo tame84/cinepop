@@ -1,10 +1,11 @@
-import fetchWellington from './cinemas/wellington.js';
+import getWellingtonMovies from './cinemas/wellington.js';
 import { addMoviesToDatabase } from './actions/movies.js';
 
 const fetchMovies = async () => {
-    // Modifier le système de scraping, trouver les films via "à l'affiche" et plus par "programmation", permet de récupérérer la poster
-    const movies = await fetchWellington();
+    const cinemasMovies = await Promise.all([getWellingtonMovies()]);
 
-    addMoviesToDatabase(movies);
+    for (const cinemaMovies of cinemasMovies) {
+        addMoviesToDatabase(cinemaMovies);
+    }
 };
 fetchMovies();

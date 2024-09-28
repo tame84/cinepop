@@ -75,23 +75,25 @@ const getSchedules = (schedulesElementsContainer) => {
     return cleanDates;
 };
 
-const SITE_URL = 'https://www.cineswellington.com/';
+export default async function getWellingtonMovies() {
+    const SITE_URL = 'https://www.cineswellington.com/';
 
-export default async function fetchWellington() {
     const pageHTML = (await axios.get(SITE_URL)).data;
     const document = new JSDOM(pageHTML).window.document;
 
-    const linksContainer = document.querySelectorAll('#upgrille');
-    const links = [];
+    const playedMoviesContainer = document.getElementById('affiche').querySelectorAll('.port-inner');
+    const playedMovies = [];
 
-    linksContainer.forEach((el) => {
-        const link = el.querySelector('a').href;
-        links.push(link);
+    playedMoviesContainer.forEach((movie) => {
+        const link = movie.querySelector('.port-link').href;
+        const posterURL = movie.querySelector('.port-img img').src;
+
+        playedMovies.push({ link, posterURL });
     });
 
     const movies = [];
 
-    for (const link of links) {
+    for (const { link, posterURL } of playedMovies) {
         const movieHTML = (await axios.get(`${SITE_URL}${link}`)).data;
         const document = new JSDOM(movieHTML).window.document;
 
@@ -103,12 +105,13 @@ export default async function fetchWellington() {
 
         const movieFormated = {
             title,
+            posterURL,
             duration,
             schedules: schedules,
             genre: JSON.stringify(genre),
             actors: JSON.stringify(actors),
             director: JSON.stringify(director),
-            synopsis: synopsis,
+            synopsis: synopsis.trim(),
             cinemaId: 1,
         };
 
