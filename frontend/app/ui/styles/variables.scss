@@ -1,7 +1,13 @@
-@import './reset.css';
-
 // Variables
 $background-color: #fafafa;
 $backgroun-color-darker: #eeeeee;
 $foreground-color: #0a0a0a;
 $primary-color: #0044ff;
+
+// Fonts
+@font-face {
+    font-family: 'Kameron';
+    src: url('../fonts/Kameron-Variable.ttf');
+}
+
+$title-font: 'Kameron';

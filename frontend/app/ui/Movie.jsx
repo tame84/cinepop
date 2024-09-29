@@ -1,25 +1,40 @@
 import Image from 'next/image';
+import styles from '@/app/ui/styles/movie.module.scss';
 
 export default function Movie({ movie }) {
     return (
-        <div>
+        <div className={styles.movie}>
             <Image src={movie.poster_url} alt={`Poster du film ${movie.title}`} width={320} height={427} />
-            <div>
+            <div className={styles.details}>
                 <h3>{movie.title}</h3>
-                <p>Durée : {minutesToHours(movie.duration)}</p>
+                {movie.genre.map((genre) => (
+                    <span key={genre} className={styles.tags}>
+                        {genre}
+                    </span>
+                ))}
+                <br />
+                <br />
                 <p>
-                    {movie.genre.length > 1 ? 'Genres' : 'Genre'} : {movie.genre.join(', ')}
+                    <span>Durée</span> : {minutesToHours(movie.duration)}
                 </p>
-                <p>Acteurs : {movie.actors.join(', ')}</p>
+
                 <p>
-                    {movie.director.length > 1 ? 'Réalisateurs' : 'Réalisateur'} : {movie.director.join(', ')}
+                    <span>Acteurs</span> : {movie.actors.join(', ')}
                 </p>
-                <p>{movie.synopsis}</p>
+                <p>
+                    <span>{movie.director.length > 1 ? 'Réalisateurs' : 'Réalisateur'}</span> :{' '}
+                    {movie.director.join(', ')}
+                </p>
+                <p className={styles.synopsis}>{movie.synopsis}</p>
             </div>
-            <div>
-                <a href={movie.cinema_url}>{movie.cinema}</a>
+            <div className={styles.cinemas}>
+                <div>
+                    <a href={movie.cinema_url} target="_blank">
+                        {movie.cinema}
+                    </a>
+                </div>
             </div>
-            <div>
+            <div className={styles.hours}>
                 <ul>
                     {movie.hours.map((hour) => (
                         <li key={hour}>{hour}</li>

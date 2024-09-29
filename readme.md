@@ -10,4 +10,4 @@ A faire :
 
 -   CRON pour récupérer tous les films quotidiennement
 -   Scraping des autres cinémas
--   CSS
+-   Modification du style des films

@@ -1,7 +1,7 @@
-// import MoviesFilters from '@/app/ui/MoviesFilters';
 import Movie from '@/app/ui/Movie';
 import { fetchMoviesByDate, fetchTodayMovies } from '@/app/lib/data';
 import { redirect } from 'next/navigation';
+import styles from '@/app/ui/styles/movies.module.scss';
 
 export default async function Movies({ searchParams }) {
     const dates = getWeek();
@@ -15,8 +15,16 @@ export default async function Movies({ searchParams }) {
     };
 
     return (
-        <main>
-            <aside>
+        <main className={styles.main}>
+            <aside className={styles.aside}>
+                <h2>
+                    Projections du{' '}
+                    <span>
+                        {selectedDate
+                            ? new Date(selectedDate).toLocaleDateString('fr-FR', { month: 'long', day: '2-digit' })
+                            : new Date().toLocaleDateString('fr-FR', { month: 'long', day: '2-digit' })}
+                    </span>
+                </h2>
                 <ul>
                     {dates.map((date) => (
                         <li key={date.value}>
@@ -27,16 +35,14 @@ export default async function Movies({ searchParams }) {
                         </li>
                     ))}
                 </ul>
-                <select id="cinemaId" defaultValue="">
-                    <option value="">Tous les cinémas</option>
-                    <option value="1">Cinés Wellington</option>
-                </select>
             </aside>
-            <div>
+            <div className={styles.movies}>
                 {movies && movies.length > 1 ? (
                     movies.map((movie) => <Movie key={movie.title} movie={movie} />)
                 ) : (
-                    <p>Il n'y a aucun films à voir pour le moment.</p>
+                    <div className={styles.noMovies}>
+                        <p>Il n'y a aucun films à voir pour le moment.</p>
+                    </div>
                 )}
             </div>
         </main>

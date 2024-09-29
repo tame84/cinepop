@@ -26,7 +26,7 @@ export default function Map({ markers }) {
     const centerLng = markers.reduce((sum, marker) => sum + marker.lng, 0) / markers.length;
 
     return (
-        <div style={{ height: '600px', width: '100%' }}>
+        <div style={{ height: '100%', width: '100%' }}>
             <MapContainer
                 center={[centerLat, centerLng]}
                 zoom={13}

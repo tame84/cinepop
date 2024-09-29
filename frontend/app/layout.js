@@ -1,14 +1,9 @@
 import localFont from 'next/font/local';
-import '@/app/ui/styles/globals.scss';
+import '@/app/ui/styles/reset.css';
 
-const geistSans = localFont({
-    src: './ui/fonts/GeistVF.woff',
-    variable: '--font-geist-sans',
-    weight: '100 900',
-});
-const geistMono = localFont({
-    src: './ui/fonts/GeistMonoVF.woff',
-    variable: '--font-geist-mono',
+const instrumentSans = localFont({
+    src: './ui/fonts/InstrumentSans-Variable.ttf',
+    variable: '--font-instrument-sans',
     weight: '100 900',
 });
 
@@ -23,7 +18,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="fr">
-            <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+            <body className={`${instrumentSans.className}`}>{children}</body>
         </html>
     );
 }
