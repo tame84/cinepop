@@ -8,7 +8,7 @@ export default function DynamicMap() {
     });
 
     return (
-        <div>
+        <div id="map">
             <MapWithNoSSR markers={markers} />
         </div>
     );

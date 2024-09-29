@@ -16,8 +16,16 @@ export default function Movie({ movie }) {
                 </p>
                 <p>{movie.synopsis}</p>
             </div>
-            <div></div>
-            <div></div>
+            <div>
+                <a href={movie.cinema_url}>{movie.cinema}</a>
+            </div>
+            <div>
+                <ul>
+                    {movie.hours.map((hour) => (
+                        <li key={hour}>{hour}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }

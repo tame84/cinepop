@@ -7,5 +7,7 @@
 -   [Cinégrez](https://cinegrez.be/)
 
 A faire :
-- Modifier la manière de scraper Cinés Wellington pour récupérer les posters des films.
-- Créer l'UI des films sur le front-end.
+
+-   CRON pour récupérer tous les films quotidiennement
+-   Scraping des autres cinémas
+-   CSS

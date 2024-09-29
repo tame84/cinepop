@@ -11,3 +11,5 @@ export const client = new Client({
     port: process.env.PG_PORT,
     database: process.env.PG_DATABASE,
 });
+
+await client.connect();
