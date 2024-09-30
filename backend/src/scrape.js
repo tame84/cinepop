@@ -25,10 +25,10 @@ export default async function scrapeMovies() {
             const castingContainer = document.querySelector('[data-tabup="casting"]');
             const synopsisContainer = document.querySelector('[data-tabup="synopsis"]');
 
-            const title = document.querySelector('.title').textContent;
+            const title = document.querySelector('.title').textContent.trim();
             const { duration, genre, director, releaseDate, originalLanguage, country } = getDetails(detailsContainer);
             const casting = getCasting(castingContainer);
-            const synopsis = getSynopsis(synopsisContainer);
+            const synopsis = synopsisContainer.querySelector('.synopsis').textContent.trim();
 
             movies.push({
                 title,
@@ -142,13 +142,4 @@ const getCasting = (castingContainer) => {
     });
 
     return casting;
-};
-
-/**
- * @param {HTMLElement} synopsisContainer
- */
-const getSynopsis = (synopsisContainer) => {
-    const synopsis = synopsisContainer.querySelector('.synopsis').textContent.trim();
-
-    return synopsis;
 };
