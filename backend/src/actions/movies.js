@@ -1,32 +1,53 @@
 import { client } from '../db.js';
 
-export const addMoviesToDatabase = async (movies) => {
+export const addToDatabase = async (movies) => {
     try {
         await client.connect();
 
         await client.query('DELETE FROM movies_schedules');
         await client.query('DELETE FROM movies');
 
-        for (const { title, posterURL, duration, schedules, genre, actors, director, synopsis, cinemaId } of movies) {
-            const sqlValues = [title, posterURL, duration, genre, actors, director, synopsis, cinemaId];
+        for (const movie of movies) {
+            const {
+                title,
+                duration,
+                genre,
+                director,
+                releaseDate,
+                originalLanguage,
+                country,
+                casting,
+                synopsis,
+                schedules,
+                poster,
+            } = movie;
 
-            const res = await client.query(
-                'INSERT INTO movies (title, poster_url, duration, genre, actors, director, synopsis, cinema_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING uuid',
-                sqlValues
-            );
-            const movieUUID = res.rows[0].uuid;
+            const movieSql = [
+                title,
+                duration,
+                genre,
+                director,
+                releaseDate,
+                originalLanguage,
+                country,
+                casting,
+                synopsis,
+                poster,
+            ];
+            let query =
+                'INSERT INTO movies (title, duration, genre, director, release_date, original_language, country, casting, synopsis, poster) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING uuid';
 
-            for (const { date, hours } of schedules) {
-                const sqlValues = [date, JSON.stringify(hours), movieUUID];
+            const response = await client.query(query, movieSql);
+            const movieUuid = response.rows[0].uuid;
 
-                await client.query(
-                    'INSERT INTO movies_schedules (date, hours, movie_id) VALUES ($1, $2, $3)',
-                    sqlValues
-                );
+            query = 'INSERT INTO movies_schedules (date, schedules, movie_uuid) VALUES ($1, $2, $3)';
+
+            for (const schedule of schedules) {
+                const scheduleSql = [schedule.date, schedule.schedules, movieUuid];
+
+                await client.query(query, scheduleSql);
             }
         }
-
-        console.log('Finished to add movies to the database.');
     } catch (error) {
         console.error('Database Error :', error);
     } finally {

@@ -24,11 +24,16 @@ export default async function scrapeMovies() {
             const detailsContainer = document.querySelector('[data-tabup="infos"]');
             const castingContainer = document.querySelector('[data-tabup="casting"]');
             const synopsisContainer = document.querySelector('[data-tabup="synopsis"]');
+            const schedulesContainer = document.querySelector('[data-tabup="showtimes"]');
+            const posterContainer = document.querySelector('.g-picture');
 
             const title = document.querySelector('.title').textContent.trim();
+            const poster = getPoster(posterContainer);
+
             const { duration, genre, director, releaseDate, originalLanguage, country } = getDetails(detailsContainer);
             const casting = getCasting(castingContainer);
             const synopsis = synopsisContainer.querySelector('.synopsis').textContent.trim();
+            const schedules = await getSchedules(document, schedulesContainer);
 
             movies.push({
                 title,
@@ -40,13 +45,15 @@ export default async function scrapeMovies() {
                 country,
                 casting,
                 synopsis,
+                schedules,
+                poster,
             });
         } catch (error) {
-            console.log('Scraping Error : `scrape.js` l46');
+            console.log('Scraping Error : `scrape.js`', link);
         }
     }
 
-    console.log(movies);
+    return movies;
 }
 
 /**
@@ -102,19 +109,20 @@ const getDetails = (detailsContainer) => {
         const detailValueContainer = span[1];
 
         if (detailNameContainer.textContent.trim().toLowerCase().includes('durée')) {
-            details.duration = detailValueContainer.textContent.split(' ')[0].trim();
+            const duration = detailValueContainer.textContent.split(' ')[0].trim();
+            details.duration = Number(duration);
         } else if (detailNameContainer.textContent.trim().toLowerCase().includes('genre')) {
             details.genre = detailValueContainer.textContent.trim();
         } else if (detailNameContainer.textContent.trim().toLowerCase().includes('réalisé par')) {
             const directors = detailValueContainer.textContent.trim().split('\n');
             if (directors.length > 1) {
-                details.director = [directors[0].trim(), directors[1].split('& ')[1].trim()];
+                details.director = JSON.stringify([directors[0].trim(), directors[1].split('& ')[1].trim()]);
             } else {
-                details.director = [detailValueContainer.textContent.trim()];
+                details.director = JSON.stringify([detailValueContainer.textContent.trim()]);
             }
         } else if (detailNameContainer.textContent.trim().toLowerCase().includes('date de sortie')) {
-            const date = detailValueContainer.querySelector('[itemprop="datePublished"]').textContent;
-            details.releaseDate = date.trim();
+            const date = detailValueContainer.querySelector('[itemprop="datePublished"]').textContent.trim();
+            details.releaseDate = new Date(date);
         } else if (detailNameContainer.textContent.trim().toLowerCase().includes('langue originale')) {
             details.originalLanguage = detailValueContainer.textContent.trim();
         } else if (detailNameContainer.textContent.trim().toLowerCase().includes('pays')) {
@@ -141,5 +149,75 @@ const getCasting = (castingContainer) => {
         casting.push(actor.textContent.trim());
     });
 
-    return casting;
+    return JSON.stringify(casting);
+};
+
+/**
+ * @param {Document} document
+ * @param {HTMLElement} schedulesContainer
+ * Gérer le cas où il n'y a pas d'horaire pour la journée + fetch les autres jours
+ */
+const getSchedules = async (document, schedulesContainer) => {
+    const dateSelector = schedulesContainer.querySelector('select').querySelectorAll('option');
+    const backgroundStyle = document.querySelector('.background').children[0].style.backgroundImage;
+    const dates = [];
+
+    dateSelector.forEach((date) => {
+        dates.push(date.value);
+    });
+
+    const match = backgroundStyle.match(/movies(\d+)\//);
+
+    if (match && match[1]) {
+        const movieId = match[1];
+        const schedules = [];
+
+        for (const date of dates) {
+            const daySchedules = {
+                date: new Date(date),
+                schedules: [],
+            };
+
+            const response = await axios.get(
+                `/modules/ajax_showtimes.cfm?Lang=fr&act=movieShowtimes&moviesId=${movieId}&v3&regionId=3&selDate=${date}`
+            );
+
+            if (response.data.data.length > 0) {
+                const schedulesData = response.data.data[0].data;
+
+                schedulesData.map((cinema) => {
+                    const cinemaSchedules = cinema.data;
+                    const showtimesByCinema = {
+                        cinema: cinema.YellowName,
+                        hours: [],
+                    };
+
+                    cinemaSchedules.map((showtime) => {
+                        showtimesByCinema.hours.push({ hour: showtime.hour, languageVersion: showtime.mVersion });
+                    });
+
+                    daySchedules.schedules.push(showtimesByCinema);
+                });
+
+                schedules.push(daySchedules);
+            }
+
+            daySchedules.schedules = JSON.stringify(daySchedules.schedules);
+        }
+
+        return schedules;
+    }
+};
+
+/**
+ * @param {HTMLElement} posterContainer
+ */
+const getPoster = (posterContainer) => {
+    const img = posterContainer.querySelector('img');
+    const attributes = {
+        url: img.dataset.src,
+        alt: img.alt,
+    };
+
+    return JSON.stringify(attributes);
 };
