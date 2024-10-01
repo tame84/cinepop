@@ -7,7 +7,6 @@ const axios = a.create({
 
 let moviesLinksGlobal = new Set();
 
-// à faire : récupérer les horaires par jour par cinéma
 export default async function scrapeMovies() {
     const response = await axios.get('/fr/cinema/programme/region/brabant-wallon/');
     const document = new JSDOM(response.data).window.document;
@@ -155,7 +154,6 @@ const getCasting = (castingContainer) => {
 /**
  * @param {Document} document
  * @param {HTMLElement} schedulesContainer
- * Gérer le cas où il n'y a pas d'horaire pour la journée + fetch les autres jours
  */
 const getSchedules = async (document, schedulesContainer) => {
     const dateSelector = schedulesContainer.querySelector('select').querySelectorAll('option');
