@@ -1,15 +1,11 @@
-import Header from '@/app/ui/Header';
-import DynamicMap from '@/app/ui/DynamicMap';
-import Movies from '@/app/ui/Movies';
-import Footer from '@/app/ui/Footer';
+import Navigation from '@/app/ui/Navigation';
+import Map from '@/app/ui/Map';
 
-export default function Home({ searchParams }) {
+export default async function Home() {
     return (
-        <>
-            <Header />
-            <DynamicMap />
-            <Movies searchParams={searchParams} />
-            <Footer />
-        </>
+        <div className="app">
+            <Navigation />
+            <Map />
+        </div>
     );
 }

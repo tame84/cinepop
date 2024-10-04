@@ -1,64 +1,59 @@
-'use client';
+import dynamic from 'next/dynamic';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+const markers = [
+    {
+        title: 'Kinepolis Imagibraine',
+        googleMapUrl: 'https://maps.app.goo.gl/b9YRY3YoiD4oRMj39',
+        lat: 50.668569,
+        lng: 4.378615,
+    },
+    {
+        title: 'Cinés Wellington',
+        googleMapUrl: 'https://maps.app.goo.gl/zQXQWBMFrJXVvByh6',
+        lat: 50.71679,
+        lng: 4.399032,
+    },
+    {
+        title: "Cinéma l'Etoile",
+        googleMapUrl: 'https://maps.app.goo.gl/7QRbeRyho7WKyHA2A',
+        lat: 50.724877,
+        lng: 4.868006,
+    },
+    {
+        title: 'Cinéscope Louvain-la-Neuve',
+        googleMapUrl: 'https://maps.app.goo.gl/sSbLM9nDefkwU9qD9',
+        lat: 50.669123,
+        lng: 4.611538,
+    },
+    {
+        title: 'Ciné Centre',
+        googleMapUrl: 'https://maps.app.goo.gl/zuqTopY5DPRmhJRu8',
+        lat: 50.711705,
+        lng: 4.520992,
+    },
+    {
+        title: 'Ciné4',
+        googleMapUrl: 'https://maps.app.goo.gl/UoJfcEJ5UetctxpA7',
+        lat: 50.597799,
+        lng: 4.321672,
+    },
+    {
+        title: 'CinéGrez',
+        googleMapUrl: 'https://maps.app.goo.gl/hUiDsUWdJBfusHvy5',
+        lat: 50.73708,
+        lng: 4.7023,
+    },
+];
 
-const iconUrl = '/images/marker-icon.png';
-const iconRetinaUrl = '/images/marker-icon-2x.png';
-const shadowUrl = '/images/marker-shadow.png';
-
-const iconDefault = L.icon({
-    iconRetinaUrl,
-    iconUrl,
-    shadowUrl,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    tooltipAnchor: [16, -28],
-    shadowSize: [41, 41],
-});
-
-L.Marker.prototype.options.icon = iconDefault;
-
-export default function Map({ markers }) {
-    const centerLat = markers.reduce((sum, marker) => sum + marker.lat, 0) / markers.length;
-    const centerLng = markers.reduce((sum, marker) => sum + marker.lng, 0) / markers.length;
+export default function Map() {
+    const MapWithNoSSR = dynamic(() => import('./StaticMap'), {
+        loading: () => <p>Chargement de la carte...</p>,
+        ssr: false,
+    });
 
     return (
-        <div style={{ height: '100%', width: '100%' }}>
-            <MapContainer
-                center={[centerLat, centerLng]}
-                zoom={13}
-                placeholder={<MapPlaceholder />}
-                style={{ height: '100%', width: '100%' }}
-            >
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                {markers.map((marker, index) => (
-                    <Marker key={`marker-${index}`} position={[marker.lat, marker.lng]}>
-                        {marker.title && (
-                            <Popup>
-                                {marker.title}
-                                <br />
-                                <a href={marker.googleMapUrl} target="_blank" rel="noopener noreferrer">
-                                    Itinéraire Google Maps
-                                </a>
-                            </Popup>
-                        )}
-                    </Marker>
-                ))}
-            </MapContainer>
+        <div className="map">
+            <MapWithNoSSR markers={markers} />
         </div>
-    );
-}
-
-export function MapPlaceholder() {
-    return (
-        <p>
-            Carte du Brabant Wallon. <noscript>Vous devez activer Javascript pour voir cette carte.</noscript>
-        </p>
     );
 }

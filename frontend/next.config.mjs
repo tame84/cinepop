@@ -4,8 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'movies.monnaie-services.com',
-                pathname: '/BE/poster/**',
+                hostname: 'www.cinenews.be',
             },
         ],
     },
