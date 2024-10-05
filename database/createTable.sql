@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS movies (
     uuid UUID PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
     title VARCHAR(255) NOT NULL,
     duration SMALLINT,
-    genre VARCHAR(255),
+    genre JSON,
     director JSON,
     release_date DATE,
     original_language VARCHAR(255),

@@ -111,7 +111,7 @@ const getDetails = (detailsContainer) => {
             const duration = detailValueContainer.textContent.split(' ')[0].trim();
             details.duration = Number(duration);
         } else if (detailNameContainer.textContent.trim().toLowerCase().includes('genre')) {
-            details.genre = detailValueContainer.textContent.trim();
+            details.genre = JSON.stringify(detailValueContainer.textContent.trim().split(', '));
         } else if (detailNameContainer.textContent.trim().toLowerCase().includes('réalisé par')) {
             const directors = detailValueContainer.textContent.trim().split('\n');
             if (directors.length > 1) {
