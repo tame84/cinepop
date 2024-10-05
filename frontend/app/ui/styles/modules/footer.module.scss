@@ -1,0 +1,17 @@
+@import '@/app/ui/styles/variables.scss';
+
+.footer {
+    background-color: $background-lighter-color;
+    padding: 2rem 3rem 3rem;
+    display: flex;
+    gap: 4rem;
+
+    a {
+        color: #0095ff;
+        text-decoration: underline;
+    }
+
+    .scrape {
+        max-width: 600px;
+    }
+}

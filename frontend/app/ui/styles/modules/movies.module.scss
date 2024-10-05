@@ -1,0 +1,131 @@
+@import '@/app/ui/styles/variables.scss';
+
+.movies {
+    margin: 0 3rem 8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .movie {
+        padding: 1.25rem;
+        background: $background-lighter-color;
+        border-radius: 0.25rem;
+
+        .content {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 1rem;
+
+            .poster {
+                img {
+                    border-radius: 0.25rem;
+                }
+            }
+
+            .infos {
+                h2 {
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                    margin-bottom: 0.5rem;
+                }
+
+                ul {
+                    margin-bottom: 2.5rem;
+                    display: flex;
+                    gap: 0.25rem;
+
+                    li {
+                        padding: 0.35rem 0.5rem;
+                        color: $foreground-reverse-color;
+                        font-weight: 500;
+                        font-size: 0.9rem;
+                        background: $primary-color;
+                        border-radius: 100px;
+                    }
+                }
+
+                .details {
+                    margin-bottom: 1.5rem;
+                    display: flex;
+                    gap: 1.5rem;
+
+                    .duration {
+                        position: relative;
+
+                        &::before {
+                            content: 'Durée';
+                            height: auto;
+                            width: max-content;
+                            color: $grey-color;
+                            font-size: 0.9rem;
+                            font-weight: 700;
+                            position: absolute;
+                            transform: translateY(-100%);
+                        }
+                    }
+
+                    .director {
+                        position: relative;
+
+                        &::before {
+                            content: 'Réalisateur';
+                            height: auto;
+                            width: max-content;
+                            color: $grey-color;
+                            font-size: 0.9rem;
+                            font-weight: 700;
+                            position: absolute;
+                            transform: translateY(-100%);
+                        }
+                    }
+
+                    .originalLanguage {
+                        position: relative;
+
+                        &::before {
+                            content: "Langue d'origine";
+                            height: auto;
+                            width: max-content;
+                            color: $grey-color;
+                            font-size: 0.9rem;
+                            font-weight: 700;
+                            position: absolute;
+                            transform: translateY(-100%);
+                        }
+                    }
+                }
+
+                .casting {
+                    position: relative;
+                    margin-bottom: 1.5rem;
+
+                    &::before {
+                        content: 'Acteurs';
+                        height: auto;
+                        width: max-content;
+                        color: $grey-color;
+                        font-size: 0.9rem;
+                        font-weight: 700;
+                        position: absolute;
+                        transform: translateY(-100%);
+                    }
+                }
+
+                .synopsis {
+                    position: relative;
+
+                    &::before {
+                        content: 'Synopsis';
+                        height: auto;
+                        width: max-content;
+                        color: $grey-color;
+                        font-size: 0.9rem;
+                        font-weight: 700;
+                        position: absolute;
+                        transform: translateY(-100%);
+                    }
+                }
+            }
+        }
+    }
+}

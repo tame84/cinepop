@@ -26,10 +26,10 @@ export default function StaticMap({ markers }) {
     const centerLng = markers.reduce((sum, marker) => sum + marker.lng, 0) / markers.length;
 
     return (
-        <div style={{ height: '400px', width: '600px' }}>
+        <div style={{ height: '600px', width: '100%' }}>
             <MapContainer
                 center={[centerLat, centerLng]}
-                zoom={10}
+                zoom={11}
                 placeholder={<MapPlaceholder />}
                 style={{ height: '100%', width: '100%' }}
             >

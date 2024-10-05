@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
+import styles from '@/app/ui/styles/modules/date-selector.module.scss';
 
-export default function DateSelector() {
+export default function DateSelector({ selectedDate }) {
     const week = getWeek();
 
     const handleChangeDate = async (formData) => {
@@ -10,12 +11,17 @@ export default function DateSelector() {
     };
 
     return (
-        <ul className="dates">
+        <ul className={styles.dates}>
             {week.map((day) => (
-                <li key={day.value}>
+                <li key={day.value} className={`${styles.date} ${selectedDate === day.value ? styles.active : ''}`}>
                     <form action={handleChangeDate}>
                         <input type="hidden" name="dateValue" value={day.value} readOnly />
-                        <input type="submit" value={day.displayName} />
+                        <button type="submit">
+                            <p className={styles.text}>
+                                <span className={styles.day}>{day.displayName.split(' ')[0]}</span>{' '}
+                                <span>{day.displayName.split(' ')[1]}</span>
+                            </p>
+                        </button>
                     </form>
                 </li>
             ))}

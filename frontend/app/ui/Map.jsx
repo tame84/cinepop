@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import styles from '@/app/ui/styles/modules/map.module.scss';
 
 const markers = [
     {
@@ -52,7 +53,7 @@ export default function Map() {
     });
 
     return (
-        <div className="map">
+        <div className={styles.map}>
             <MapWithNoSSR markers={markers} />
         </div>
     );

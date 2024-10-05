@@ -1,0 +1,28 @@
+@import '@/app/ui/styles/variables.scss';
+
+.nav {
+    margin: 2rem 3rem 1.5rem;
+    padding: 1.5rem;
+    background: $background-lighter-color;
+    border-radius: 0.25rem;
+    position: relative;
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    a {
+        padding: 0.75rem 1.5rem;
+        color: $foreground-reverse-color;
+        font-weight: 500;
+        background: $primary-color;
+        border-radius: 0.25rem;
+        display: inline-block;
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}

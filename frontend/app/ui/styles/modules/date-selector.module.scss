@@ -1,0 +1,45 @@
+@import '@/app/ui/styles/variables.scss';
+
+.dates {
+    margin: 1.5rem 3rem 4rem;
+    display: flex;
+    gap: 0.5rem;
+
+    .date {
+        background: $background-lighter-color;
+        border-radius: 0.25rem;
+        border: 1px solid transparent;
+
+        &:hover {
+            filter: brightness(130%);
+        }
+
+        form {
+            height: 120px;
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button[type='submit'] {
+            height: 100%;
+            width: 100%;
+
+            .text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .day {
+                font-size: 2rem;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .active {
+        border-bottom: 1px solid $primary-color;
+    }
+}

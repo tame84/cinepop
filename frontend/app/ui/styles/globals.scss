@@ -1,0 +1,21 @@
+@import './variables.scss';
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: $background-color;
+    color: $foreground-color;
+}
+
+a,
+button {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.app {
+    max-width: 1800px;
+    margin: 0 auto;
+}
