@@ -7,6 +7,10 @@
     border-radius: 0.25rem;
     position: relative;
 
+    @media screen and (max-width: 600px) {
+        margin: 2rem 0.75rem 1.5rem;
+    }
+
     h1 {
         font-size: 2rem;
         font-weight: 500;
@@ -24,5 +28,11 @@
         right: 1.5rem;
         top: 50%;
         transform: translateY(-50%);
+    }
+
+    @media screen and (max-width: 1180px) {
+        a {
+            display: none;
+        }
     }
 }

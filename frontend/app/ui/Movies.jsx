@@ -53,6 +53,7 @@ const Movie = ({ movie }) => {
                         {movie.synopsis && <p className={styles.synopsis}>{movie.synopsis}</p>}
                     </div>
                 </div>
+                <Modal id="pc-modal" schedules={movie.schedules} />
             </div>
         </article>
     );

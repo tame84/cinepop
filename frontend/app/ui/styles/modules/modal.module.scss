@@ -25,7 +25,8 @@
 
     .modal {
         z-index: 1050;
-        width: 540px;
+        width: 80%;
+        max-width: 540px;
         background: $background-lighter-color;
         padding: 1.5rem;
         border-radius: 0.25rem;

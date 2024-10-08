@@ -20,6 +20,9 @@
                 img {
                     border-radius: 0.25rem;
                 }
+                button {
+                    display: block;
+                }
             }
 
             .infos {
@@ -47,6 +50,7 @@
                 .details {
                     margin-bottom: 1.5rem;
                     display: flex;
+                    flex-wrap: wrap;
                     gap: 1.5rem;
 
                     .duration {
@@ -124,6 +128,43 @@
                         position: absolute;
                         transform: translateY(-100%);
                     }
+                }
+            }
+            button {
+                display: none;
+            }
+        }
+    }
+
+    @media screen and (max-width: 760px) {
+        .movie {
+            .content {
+                display: flex;
+                flex-direction: column;
+
+                .poster {
+                    button {
+                        display: none;
+                    }
+                }
+                .infos {
+                    h2 {
+                        font-size: 1.3rem;
+                    }
+                    p {
+                        font-size: 0.9rem;
+                    }
+
+                    ul {
+                        flex-wrap: wrap;
+                        li {
+                            font-size: 0.8rem;
+                        }
+                    }
+                }
+
+                button {
+                    display: block;
                 }
             }
         }

@@ -1,0 +1,19 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #08090c;
+  color: #fafafa;
+}
+
+a,
+button {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.app {
+  max-width: 1800px;
+  margin: 0 auto;
+}/*# sourceMappingURL=globals.css.map */

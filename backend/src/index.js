@@ -8,3 +8,8 @@ cron.schedule('0 0 * * *', async () => {
     await addToDatabase(movies);
     console.log('Daily scraping finished.');
 });
+
+console.log('Daily scraping started...');
+const movies = await scrapeMovies();
+await addToDatabase(movies);
+console.log('Daily scraping finished.');

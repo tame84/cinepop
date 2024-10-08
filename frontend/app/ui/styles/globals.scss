@@ -2,6 +2,13 @@
 
 html {
     scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+        width: 2px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $primary-color;
+        border-radius: 10px;
+    }
 }
 
 body {
